@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: chachkie-fn
+  name: chachkie-fn
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chachkie-fn
+  template:
+    metadata:
+      labels:
+        app: chachkie-fn
+    spec:
+      containers:
+      - image: chachkie-fn
+        name: chachkie-fn

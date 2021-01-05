@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: chachkie-fn
+  name: chachkie-fn
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    app: chachkie-fn
+  type: ClusterIP

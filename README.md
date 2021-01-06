@@ -18,7 +18,11 @@ Use [Harbor repository](https://harbor-repo.vmware.com/)
 skaffold dev --default-repo harbor-repo.vmware.com/build_service --no-prune=false --cache-artifacts=false --port-forward
 ```
 
-harbor-repo.vmware.com/build_service
+Test the endpoint
+
+```bash
+echo '["one","two","three"]' | http -f POST :3000/chachkies Content-Type:text/plain
+```
 
 
 ## [Generate Tekton pipeline](https://github.com/GoogleContainerTools/skaffold/tree/master/examples/generate-pipeline)
@@ -26,3 +30,4 @@ harbor-repo.vmware.com/build_service
 ## Resources
 
 [Skaffold](https://skaffold.dev/)
+[k8s dev tools](https://github.com/dsyer/skaffold-devtools-demo)

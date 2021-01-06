@@ -17,3 +17,5 @@ spec:
       containers:
       - image: chachkie-fn
         name: chachkie-fn
+        ports:
+        - containerPort: 8080

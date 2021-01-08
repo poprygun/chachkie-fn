@@ -15,7 +15,17 @@ skaffold dev --no-prune=false --cache-artifacts=false
 Use [Harbor repository](https://harbor-repo.vmware.com/) 
 
 ```bash
-skaffold dev --default-repo harbor-repo.vmware.com/build_service --no-prune=false --cache-artifacts=false --port-forward
+skaffold dev --default-repo harbor-repo.vmware.com/build_service --no-prune=false \
+--cache-artifacts=false --port-forward \
+```
+
+skaffold dev --no-prune=false --cache-artifacts=false --port-forward
+
+Generate rabbitmq service
+
+```bash
+kubectl run rabbitmq --image=rabbitmq:management --expose --port=15672 --restart=Never \
+--dry-run=client -o yaml > k8s/rabbitmq.yml \
 ```
 
 Test the endpoint
@@ -23,6 +33,7 @@ Test the endpoint
 ```bash
 echo '["one","two","three"]' | http -f POST :3000/chachkies Content-Type:text/plain
 ```
+
 
 
 ## [Generate Tekton pipeline](https://github.com/GoogleContainerTools/skaffold/tree/master/examples/generate-pipeline)

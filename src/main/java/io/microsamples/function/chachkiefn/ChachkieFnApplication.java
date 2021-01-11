@@ -1,6 +1,7 @@
 package io.microsamples.function.chachkiefn;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.jeasy.random.EasyRandom;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import reactor.core.publisher.Flux;
 
 import java.time.Instant;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -20,27 +22,25 @@ public class ChachkieFnApplication {
 
 	private final EasyRandom easyRandom = new EasyRandom();
 
-	@PollableBean
+	@Bean
 	public Supplier<Flux<String>> names(){
-		System.out.println("===================1");
-
-		return () -> Flux.just("one", "two", "three");
+		return () -> Flux.just("one", "two", "three").log();
 	}
 
 	@Bean
 	public Function<Flux<String>, Flux<Chachkie>> chachkies() {
-		System.out.println("===================2");
-
 		return flux -> flux.map(value -> Chachkie.builder()
-				.name(value)
+				.name(value + "-->" + UUID.randomUUID())
+				.status("processing")
 				.when(easyRandom.nextObject(Instant.class))
-				.build());
+				.build()).log();
 	}
 
 	@Bean
 	public Consumer<Flux<Chachkie>> chachkiesSink(){
-		System.out.println("===================3");
-		return Flux::log;
+		return chachkieFlux -> chachkieFlux
+				.doOnNext(c -> c.setStatus("processed"))
+				.log().subscribe();
 	}
 
 	public static void main(String[] args) {
@@ -49,7 +49,7 @@ public class ChachkieFnApplication {
 
 }
 
-@Value
+@Data
 @Builder
 class Chachkie {
 	String name;

@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    function:
+      definition: names|chachkiesSink
+    stream:
+      bindings:
+        names-in-0:
+          binder: rabbit
+          destination: chachkie-names
+        names-out-0:
+          binder: rabbit
+          destination: chachkies
+        names|chachkiesSink:
+          destination: nameschachkiesSink-in-0
+  rabbitmq:
+    host: rabbitmq.default.svc.cluster.local
+    port: 5672

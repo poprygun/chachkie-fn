@@ -2,8 +2,6 @@ package io.microsamples.function.chachkiefn;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.Value;
-import lombok.extern.slf4j.Slf4j;
 import org.jeasy.random.EasyRandom;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,9 +20,9 @@ public class ChachkieFnApplication {
 
 	private final EasyRandom easyRandom = new EasyRandom();
 
-	@Bean
+	@PollableBean
 	public Supplier<Flux<String>> names(){
-		return () -> Flux.just("one", "two", "three").log();
+		return () -> Flux.just("one", "two", "three").doOnNext(System.out::println);
 	}
 
 	@Bean
@@ -33,14 +31,13 @@ public class ChachkieFnApplication {
 				.name(value + "-->" + UUID.randomUUID())
 				.status("processing")
 				.when(easyRandom.nextObject(Instant.class))
-				.build()).log();
+				.build()).doOnNext(System.out::println);
 	}
 
 	@Bean
 	public Consumer<Flux<Chachkie>> chachkiesSink(){
 		return chachkieFlux -> chachkieFlux
-				.doOnNext(c -> c.setStatus("processed"))
-				.log().subscribe();
+				.doOnNext(c -> c.setStatus("processed")).subscribe(System.out::println);
 	}
 
 	public static void main(String[] args) {

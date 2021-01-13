@@ -34,6 +34,9 @@ Test the endpoint
 echo '["one","two","three"]' | http -f POST :3000/chachkies Content-Type:text/plain
 ```
 
+When using Spring Cloud Stream
+
+Supplier function `names` will produce a flux of strings that will be processed by `chachkies` and further by `chachkiesSink`
 
 
 ## [Generate Tekton pipeline](https://github.com/GoogleContainerTools/skaffold/tree/master/examples/generate-pipeline)

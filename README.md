@@ -28,7 +28,7 @@ kubectl run rabbitmq --image=rabbitmq:management --expose --port=15672 --restart
 --dry-run=client -o yaml > k8s/rabbitmq.yml \
 ```
 
-Test the endpoint
+Test the endpoint using Http transport
 
 ```bash
 echo '["one","two","three"]' | http -f POST :3000/chachkies Content-Type:text/plain

@@ -5,6 +5,7 @@ import lombok.Data;
 import org.jeasy.random.EasyRandom;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
 import org.springframework.cloud.function.context.PollableBean;
 import org.springframework.context.annotation.Bean;
 import reactor.core.publisher.Flux;
@@ -41,7 +42,9 @@ public class ChachkieFnApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(ChachkieFnApplication.class, args);
+		SpringApplication springApplication = new SpringApplication(ChachkieFnApplication.class);
+		springApplication.setApplicationStartup(new BufferingApplicationStartup(1000));
+		springApplication.run(args);
 	}
 
 }
